@@ -5,7 +5,7 @@ from datetime import datetime
 from picamera2 import Picamera2
 
 interval = 30   # Time in seconds between image captures
-duration = 180  # Total time to run
+duration = 180  # Total time to run in seconds.  0 = continuous run
 
 parser = argparse.ArgumentParser(description="Time-lapse camera program")
 parser.add_argument(
@@ -40,7 +40,7 @@ has_completed_duration = False
 
 def duration_calculation():
     completed_duration = False
-    if interval != 0:
+    if duration != 0:
         if time.time() - start_time > duration:
             completed_duration = True
     return completed_duration
