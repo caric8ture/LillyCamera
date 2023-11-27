@@ -11,11 +11,14 @@ parser = argparse.ArgumentParser(description="Time-lapse camera program")
 parser.add_argument(
     "-i",
     "--interval",
+    type=int,
     default=interval,
     help=f"Time between captured images (in seconds)"
 )
 parser.add_argument(
-    "-d", "--duration",
+    "-d",
+    "--duration",
+    type=int,
     default=duration,
     help=f"Total time to capture images"
 )
@@ -46,7 +49,7 @@ def duration_calculation():
 while not has_completed_duration:
     ts = datetime.now()
 
-    folder = f"tlapse/{ts.strftime('%Y-%m-%d-%H-%M-%S')}/"
+    folder = f"tlapse/{ts.strftime('%Y-%m-%d')}/"
     os.system(f"mkdir -p {folder}")
     ts_string = ts.strftime('%Y-%m-%d-%H-%M-%S')
     picam2.start()
