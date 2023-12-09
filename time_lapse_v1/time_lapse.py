@@ -6,6 +6,7 @@ from picamera2 import Picamera2
 
 interval = 30   # Time in seconds between image captures
 duration = 180  # Total time to run in seconds.  0 = continuous run
+folder_prefix = ""
 
 parser = argparse.ArgumentParser(description="Time-lapse camera program")
 parser.add_argument(
@@ -22,6 +23,12 @@ parser.add_argument(
     default=duration,
     help=f"Total time to capture images"
 )
+parser.add_argument(
+    "-f",
+    "--folder",
+    default=folder_prefix,
+    help="camera specific name to add to folder path"
+)
 
 args = parser.parse_args()
 if args.interval is not None:
@@ -29,6 +36,9 @@ if args.interval is not None:
 
 if args.duration is not None:
     duration = args.duration
+
+if args.duration is not None:
+    folder_prefix = f"{args.folder}-"
 
 picam2 = Picamera2()
 capture_config = picam2.create_still_configuration({'size': (1920, 1080)})
@@ -49,7 +59,7 @@ def duration_calculation():
 while not has_completed_duration:
     ts = datetime.now()
 
-    folder = f"tlapse/{ts.strftime('%Y-%m-%d')}/"
+    folder = f"tlapse/{folder_prefix}{ts.strftime('%Y-%m-%d')}/"
     os.system(f"mkdir -p {folder}")
     ts_string = ts.strftime('%Y-%m-%d-%H-%M-%S')
     picam2.start()
