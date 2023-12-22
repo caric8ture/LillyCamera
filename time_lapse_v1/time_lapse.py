@@ -63,6 +63,8 @@ while not has_completed_duration:
     os.system(f"mkdir -p {folder}")
     ts_string = ts.strftime('%Y-%m-%d-%H-%M-%S')
     picam2.start()
+    picam2.awb_mode = "auto"
+    picam2.exposure_mode = "auto"
     picam2.capture_file(f"{folder}{ts_string}.jpg")
     picam2.stop()
     has_completed_duration = duration_calculation()
